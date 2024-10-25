@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2024-09-29T12:49:38"/>
-  <contentHeader name="Unnamed" modificationDateTime="2024-10-19T09:59:15">
+  <contentHeader name="Unnamed" modificationDateTime="2024-10-25T15:40:36">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -155,6 +155,11 @@
                 <INT/>
               </type>
             </variable>
+            <variable name="SludgePumpVolume" address="%MW3.51">
+              <type>
+                <INT/>
+              </type>
+            </variable>
             <variable name="Const5" address="%MW3.5">
               <type>
                 <INT/>
@@ -162,11 +167,6 @@
               <initialValue>
                 <simpleValue value="5"/>
               </initialValue>
-            </variable>
-            <variable name="SludgePumpVolume" address="%MW3.51">
-              <type>
-                <INT/>
-              </type>
             </variable>
             <variable name="Const10000" address="%MW3.6">
               <type>
@@ -179,13 +179,16 @@
                 <xhtml:p><![CDATA[10k  m^3]]></xhtml:p>
               </documentation>
             </variable>
-            <variable name="phUpper" address="%MW3.7">
+            <variable name="pHUpper" address="%MW3.7">
               <type>
                 <INT/>
               </type>
               <initialValue>
                 <simpleValue value="8"/>
               </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Aim to keep pH at 7]]></xhtml:p>
+              </documentation>
             </variable>
             <variable name="pHLower" address="%MW3.8">
               <type>
@@ -194,14 +197,20 @@
               <initialValue>
                 <simpleValue value="6"/>
               </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Aim to keep pH at 7]]></xhtml:p>
+              </documentation>
             </variable>
             <variable name="TurbidityThreshold" address="%MW3.52">
               <type>
                 <INT/>
               </type>
               <initialValue>
-                <simpleValue value="10000"/>
+                <simpleValue value="60"/>
               </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[mg - bit of a guess?]]></xhtml:p>
+              </documentation>
             </variable>
             <variable name="TSSThreshold" address="%MW3.71">
               <type>
@@ -218,14 +227,20 @@
               <initialValue>
                 <simpleValue value="10500"/>
               </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Flow rate through UV]]></xhtml:p>
+              </documentation>
             </variable>
             <variable name="UVLower" address="%MW3.9">
               <type>
                 <INT/>
               </type>
               <initialValue>
-                <simpleValue value="0"/>
+                <simpleValue value="9999"/>
               </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Flow rate through UV Low - need 10000]]></xhtml:p>
+              </documentation>
             </variable>
           </localVars>
         </interface>
@@ -1181,7 +1196,7 @@
               <connectionPointOut>
                 <relPosition x="70" y="20"/>
               </connectionPointOut>
-              <expression>phUpper</expression>
+              <expression>pHUpper</expression>
             </inVariable>
             <inVariable localId="55" width="74" height="30" negated="false">
               <position x="170" y="1170"/>
@@ -2401,7 +2416,7 @@
           <xhtml:p><![CDATA[Angela - WIP]]></xhtml:p>
         </documentation>
       </pou>
-       <pou name="Humus" pouType="program">
+      <pou name="Humus" pouType="program">
         <interface>
           <localVars>
             <variable name="FilterPresureSwitchHigh" address="%IX0.15">
@@ -2419,16 +2434,44 @@
                 <INT/>
               </type>
               <initialValue>
-                <simpleValue value="1063 M^3"/>
+                <simpleValue value="1063"/>
               </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[m^2]]></xhtml:p>
+              </documentation>
             </variable>
             <variable name="RoughingCircularHumusTank" address="%MW0.1">
               <type>
                 <INT/>
               </type>
               <initialValue>
-                <simpleValue value="144.3 M^2"/>
+                <simpleValue value="144"/>
               </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[m^2]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="Const144" address="%MW0.2">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="144"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[m^2]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="Const1063" address="%MW0.3">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="1063"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[m^2]]></xhtml:p>
+              </documentation>
             </variable>
             <variable name="SludgePumpControl" address="%QX0.5">
               <type>
@@ -2662,12 +2705,12 @@
                 </variable>
               </outputVariables>
             </block>
-            <inVariable localId="15" width="50" height="30" negated="false">
+            <inVariable localId="15" width="90" height="30" negated="false">
               <position x="90" y="320"/>
               <connectionPointOut>
-                <relPosition x="50" y="10"/>
+                <relPosition x="90" y="20"/>
               </connectionPointOut>
-              <expression>1063</expression>
+              <expression>Const1063</expression>
             </inVariable>
             <inVariable localId="16" width="242" height="30" negated="false">
               <position x="60" y="270"/>
@@ -2763,12 +2806,12 @@
               </connectionPointOut>
               <expression>RoughingCircularHumusTank</expression>
             </inVariable>
-            <inVariable localId="24" width="50" height="30" negated="false">
+            <inVariable localId="24" width="80" height="30" negated="false">
               <position x="130" y="560"/>
               <connectionPointOut>
-                <relPosition x="50" y="10"/>
+                <relPosition x="80" y="20"/>
               </connectionPointOut>
-              <expression>144.3</expression>
+              <expression>Const144</expression>
             </inVariable>
             <coil localId="25" negated="false" width="21" height="20">
               <position x="610" y="540"/>
@@ -2787,21 +2830,20 @@
             <inVariable localId="26" width="80" height="30" negated="false">
               <position x="140" y="80"/>
               <connectionPointOut>
-                <relPosition x="80" y="10"/>
+                <relPosition x="80" y="20"/>
               </connectionPointOut>
-              <expression>144.3</expression>
+              <expression>Const144</expression>
             </inVariable>
             <inVariable localId="27" width="80" height="30" negated="false">
               <position x="140" y="190"/>
               <connectionPointOut>
-                <relPosition x="80" y="20"/>
+                <relPosition x="80" y="10"/>
               </connectionPointOut>
-              <expression>144.3</expression>
+              <expression>Const144</expression>
             </inVariable>
           </LD>
         </body>
       </pou>
-    </pous>
     </pous>
   </types>
   <instances>
