@@ -2383,6 +2383,407 @@
           </LD>
         </body>
       </pou>
+       <pou name="Humus" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="FilterPresureSwitchHigh" address="%IX0.15">
+              <type>
+                <INT/>
+              </type>
+            </variable>
+            <variable name="FilterPressureSwitchLow" address="%IX0.16">
+              <type>
+                <INT/>
+              </type>
+            </variable>
+            <variable name="RoughingTricklingFilterVolume" address="%MW0.0">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="1063 M^3"/>
+              </initialValue>
+            </variable>
+            <variable name="RoughingCircularHumusTank" address="%MW0.1">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="144.3 M^2"/>
+              </initialValue>
+            </variable>
+            <variable name="SludgePumpControl" address="%QX0.5">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="MixerControl" address="%QX0.6">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="FilterFlowControlvalve" address="%QX0.8">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="FilterationControl" address="%QX0.16">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <LD>
+            <leftPowerRail localId="1" width="10" height="540">
+              <position x="20" y="40"/>
+              <connectionPointOut formalParameter="">
+                <relPosition x="10" y="20"/>
+              </connectionPointOut>
+              <connectionPointOut formalParameter="">
+                <relPosition x="10" y="140"/>
+              </connectionPointOut>
+              <connectionPointOut formalParameter="">
+                <relPosition x="10" y="280"/>
+              </connectionPointOut>
+              <connectionPointOut formalParameter="">
+                <relPosition x="10" y="390"/>
+              </connectionPointOut>
+              <connectionPointOut formalParameter="">
+                <relPosition x="10" y="520"/>
+              </connectionPointOut>
+            </leftPowerRail>
+            <rightPowerRail localId="2" width="10" height="520">
+              <position x="730" y="50"/>
+              <connectionPointIn>
+                <relPosition x="0" y="20"/>
+                <connection refLocalId="6">
+                  <position x="730" y="70"/>
+                  <position x="621" y="70"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointIn>
+                <relPosition x="0" y="140"/>
+                <connection refLocalId="10">
+                  <position x="730" y="190"/>
+                  <position x="631" y="190"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointIn>
+                <relPosition x="0" y="260"/>
+                <connection refLocalId="12">
+                  <position x="730" y="310"/>
+                  <position x="631" y="310"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointIn>
+                <relPosition x="0" y="380"/>
+                <connection refLocalId="20">
+                  <position x="730" y="430"/>
+                  <position x="631" y="430"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointIn>
+                <relPosition x="0" y="500"/>
+                <connection refLocalId="25">
+                  <position x="730" y="550"/>
+                  <position x="631" y="550"/>
+                </connection>
+              </connectionPointIn>
+            </rightPowerRail>
+            <block localId="3" typeName="GT" width="70" height="60">
+              <position x="340" y="40"/>
+              <inputVariables>
+                <variable formalParameter="IN1">
+                  <connectionPointIn>
+                    <relPosition x="0" y="30"/>
+                    <connection refLocalId="4">
+                      <position x="340" y="70"/>
+                      <position x="315" y="70"/>
+                      <position x="315" y="40"/>
+                      <position x="290" y="40"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+                <variable formalParameter="IN2">
+                  <connectionPointIn>
+                    <relPosition x="0" y="50"/>
+                    <connection refLocalId="26">
+                      <position x="340" y="90"/>
+                      <position x="280" y="90"/>
+                      <position x="280" y="100"/>
+                      <position x="220" y="100"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+              <inOutVariables/>
+              <outputVariables>
+                <variable formalParameter="OUT">
+                  <connectionPointOut>
+                    <relPosition x="70" y="30"/>
+                  </connectionPointOut>
+                </variable>
+              </outputVariables>
+            </block>
+            <inVariable localId="4" width="200" height="30" negated="false">
+              <position x="90" y="30"/>
+              <connectionPointOut>
+                <relPosition x="200" y="10"/>
+              </connectionPointOut>
+              <expression>FilterPresureSwitchHigh</expression>
+            </inVariable>
+            <coil localId="6" negated="false" width="21" height="20">
+              <position x="600" y="60"/>
+              <connectionPointIn>
+                <relPosition x="0" y="10"/>
+                <connection refLocalId="3" formalParameter="OUT">
+                  <position x="600" y="70"/>
+                  <position x="410" y="70"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="21" y="10"/>
+              </connectionPointOut>
+              <variable>FilterationControl</variable>
+            </coil>
+            <block localId="7" typeName="LT" width="70" height="60">
+              <position x="340" y="160"/>
+              <inputVariables>
+                <variable formalParameter="IN1">
+                  <connectionPointIn>
+                    <relPosition x="0" y="30"/>
+                    <connection refLocalId="11">
+                      <position x="340" y="190"/>
+                      <position x="315" y="190"/>
+                      <position x="315" y="160"/>
+                      <position x="290" y="160"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+                <variable formalParameter="IN2">
+                  <connectionPointIn>
+                    <relPosition x="0" y="50"/>
+                    <connection refLocalId="27">
+                      <position x="340" y="210"/>
+                      <position x="220" y="210"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+              <inOutVariables/>
+              <outputVariables>
+                <variable formalParameter="OUT">
+                  <connectionPointOut>
+                    <relPosition x="70" y="30"/>
+                  </connectionPointOut>
+                </variable>
+              </outputVariables>
+            </block>
+            <coil localId="10" negated="false" width="21" height="20">
+              <position x="610" y="180"/>
+              <connectionPointIn>
+                <relPosition x="0" y="10"/>
+                <connection refLocalId="7" formalParameter="OUT">
+                  <position x="610" y="190"/>
+                  <position x="410" y="190"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="21" y="10"/>
+              </connectionPointOut>
+              <variable>FilterationControl</variable>
+            </coil>
+            <coil localId="12" negated="false" width="21" height="20">
+              <position x="610" y="300"/>
+              <connectionPointIn>
+                <relPosition x="0" y="10"/>
+                <connection refLocalId="14" formalParameter="OUT">
+                  <position x="610" y="310"/>
+                  <position x="420" y="310"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="21" y="10"/>
+              </connectionPointOut>
+              <variable>FilterFlowControlvalve</variable>
+            </coil>
+            <block localId="14" typeName="GE" width="70" height="60">
+              <position x="350" y="280"/>
+              <inputVariables>
+                <variable formalParameter="IN1">
+                  <connectionPointIn>
+                    <relPosition x="0" y="30"/>
+                    <connection refLocalId="16">
+                      <position x="350" y="310"/>
+                      <position x="330" y="310"/>
+                      <position x="330" y="280"/>
+                      <position x="302" y="280"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+                <variable formalParameter="IN2">
+                  <connectionPointIn>
+                    <relPosition x="0" y="50"/>
+                    <connection refLocalId="15">
+                      <position x="350" y="330"/>
+                      <position x="245" y="330"/>
+                      <position x="245" y="340"/>
+                      <position x="140" y="340"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+              <inOutVariables/>
+              <outputVariables>
+                <variable formalParameter="OUT">
+                  <connectionPointOut>
+                    <relPosition x="70" y="30"/>
+                  </connectionPointOut>
+                </variable>
+              </outputVariables>
+            </block>
+            <inVariable localId="15" width="50" height="30" negated="false">
+              <position x="90" y="320"/>
+              <connectionPointOut>
+                <relPosition x="50" y="10"/>
+              </connectionPointOut>
+              <expression>1063</expression>
+            </inVariable>
+            <inVariable localId="16" width="242" height="30" negated="false">
+              <position x="60" y="270"/>
+              <connectionPointOut>
+                <relPosition x="242" y="20"/>
+              </connectionPointOut>
+              <expression>RoughingTricklingFilterVolume</expression>
+            </inVariable>
+            <comment localId="18" height="40" width="230">
+              <position x="490" y="100"/>
+              <content>
+                <xhtml:p><![CDATA[FilterationControlActivated]]></xhtml:p>
+              </content>
+            </comment>
+            <comment localId="8" height="40" width="250">
+              <position x="460" y="0"/>
+              <content>
+                <xhtml:p><![CDATA[FilterationControlDeactivated]]></xhtml:p>
+              </content>
+            </comment>
+            <contact localId="19" negated="false" width="21" height="20">
+              <position x="310" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="10"/>
+                <connection refLocalId="1">
+                  <position x="310" y="430"/>
+                  <position x="30" y="430"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="21" y="10"/>
+              </connectionPointOut>
+              <variable>MixerControl</variable>
+            </contact>
+            <coil localId="20" negated="false" width="21" height="20">
+              <position x="610" y="420"/>
+              <connectionPointIn>
+                <relPosition x="0" y="10"/>
+                <connection refLocalId="19">
+                  <position x="610" y="430"/>
+                  <position x="331" y="430"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="21" y="10"/>
+              </connectionPointOut>
+              <variable>FilterFlowControlvalve</variable>
+            </coil>
+            <inVariable localId="11" width="200" height="30" negated="false" executionOrderId="0">
+              <position x="90" y="150"/>
+              <connectionPointOut>
+                <relPosition x="200" y="20"/>
+              </connectionPointOut>
+              <expression>FilterPressureSwitchLow</expression>
+            </inVariable>
+            <block localId="21" typeName="GE" width="70" height="60">
+              <position x="360" y="520"/>
+              <inputVariables>
+                <variable formalParameter="IN1">
+                  <connectionPointIn>
+                    <relPosition x="0" y="30"/>
+                    <connection refLocalId="23">
+                      <position x="360" y="550"/>
+                      <position x="315" y="550"/>
+                      <position x="315" y="520"/>
+                      <position x="290" y="520"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+                <variable formalParameter="IN2">
+                  <connectionPointIn>
+                    <relPosition x="0" y="50"/>
+                    <connection refLocalId="24">
+                      <position x="360" y="570"/>
+                      <position x="180" y="570"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+              <inOutVariables/>
+              <outputVariables>
+                <variable formalParameter="OUT">
+                  <connectionPointOut>
+                    <relPosition x="70" y="30"/>
+                  </connectionPointOut>
+                </variable>
+              </outputVariables>
+            </block>
+            <inVariable localId="23" width="210" height="30" negated="false">
+              <position x="80" y="500"/>
+              <connectionPointOut>
+                <relPosition x="210" y="10"/>
+              </connectionPointOut>
+              <expression>RoughingCircularHumusTank</expression>
+            </inVariable>
+            <inVariable localId="24" width="50" height="30" negated="false">
+              <position x="130" y="560"/>
+              <connectionPointOut>
+                <relPosition x="50" y="10"/>
+              </connectionPointOut>
+              <expression>144.3</expression>
+            </inVariable>
+            <coil localId="25" negated="false" width="21" height="20">
+              <position x="610" y="540"/>
+              <connectionPointIn>
+                <relPosition x="0" y="10"/>
+                <connection refLocalId="21" formalParameter="OUT">
+                  <position x="610" y="550"/>
+                  <position x="430" y="550"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="21" y="10"/>
+              </connectionPointOut>
+              <variable>SludgePumpControl</variable>
+            </coil>
+            <inVariable localId="26" width="80" height="30" negated="false">
+              <position x="140" y="80"/>
+              <connectionPointOut>
+                <relPosition x="80" y="10"/>
+              </connectionPointOut>
+              <expression>144.3</expression>
+            </inVariable>
+            <inVariable localId="27" width="80" height="30" negated="false">
+              <position x="140" y="190"/>
+              <connectionPointOut>
+                <relPosition x="80" y="20"/>
+              </connectionPointOut>
+              <expression>144.3</expression>
+            </inVariable>
+          </LD>
+        </body>
+      </pou>
+    </pous>
     </pous>
   </types>
   <instances>
