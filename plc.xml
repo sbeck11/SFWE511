@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2024-09-29T12:49:38"/>
-  <contentHeader name="Unnamed" modificationDateTime="2024-10-25T15:40:36">
+  <contentHeader name="Unnamed" modificationDateTime="2024-10-26T09:43:09">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -1753,6 +1753,28 @@
                 <xhtml:p><![CDATA[If the water level goes too high]]></xhtml:p>
               </documentation>
             </variable>
+            <variable name="SecondaryClarifierWaterDepth" address="%IX0.20">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Depth of water in secondary clarifier]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="BOD5" address="%IX0.21">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[Measure of BOD5 levels]]></xhtml:p>
+              </documentation>
+            </variable>
             <variable name="AirBlower" address="%QX0.3">
               <type>
                 <BOOL/>
@@ -1806,6 +1828,22 @@
               </type>
               <documentation>
                 <xhtml:p><![CDATA[outlet valve for clarifier]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="SecondaryClarifierOutletValve" address="%QX1.7">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[outlet valve for secondar clarifier to sludge]]></xhtml:p>
+              </documentation>
+            </variable>
+            <variable name="SecondaryClarifierSludgeValve" address="%QX1.8">
+              <type>
+                <BOOL/>
+              </type>
+              <documentation>
+                <xhtml:p><![CDATA[outlet valve for secondar clarifier to sludge]]></xhtml:p>
               </documentation>
             </variable>
             <variable name="AirMinFlow" address="%MW1.1">
@@ -1929,6 +1967,17 @@
                 <xhtml:p><![CDATA[threshold for clarifier tank]]></xhtml:p>
               </documentation>
             </variable>
+            <variable name="SecondClarifierDepthThresh" address="%MW1.12">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="4"/>
+              </initialValue>
+              <documentation>
+                <xhtml:p><![CDATA[threshold for secondary clarifier tank]]></xhtml:p>
+              </documentation>
+            </variable>
           </localVars>
         </interface>
         <body>
@@ -2022,6 +2071,12 @@
               </connectionPointIn>
               <connectionPointIn>
                 <relPosition x="0" y="310"/>
+                <connection refLocalId="34">
+                  <position x="940" y="420"/>
+                  <position x="865" y="420"/>
+                  <position x="865" y="720"/>
+                  <position x="790" y="720"/>
+                </connection>
               </connectionPointIn>
               <connectionPointIn>
                 <relPosition x="0" y="360"/>
@@ -2039,15 +2094,15 @@
                 <xhtml:p><![CDATA[Influent]]></xhtml:p>
               </content>
             </comment>
-            <inVariable localId="5" width="146" height="30" negated="false">
-              <position x="230" y="80"/>
+            <inVariable localId="5" width="146" height="20" negated="false">
+              <position x="250" y="100"/>
               <connectionPointOut>
-                <relPosition x="146" y="20"/>
+                <relPosition x="146" y="10"/>
               </connectionPointOut>
               <expression>InfluentWaterFlow</expression>
             </inVariable>
-            <inVariable localId="6" width="122" height="26" negated="false">
-              <position x="240" y="140"/>
+            <inVariable localId="6" width="122" height="20" negated="false">
+              <position x="270" y="130"/>
               <connectionPointOut>
                 <relPosition x="122" y="10"/>
               </connectionPointOut>
@@ -2060,10 +2115,10 @@
                   <connectionPointIn>
                     <relPosition x="0" y="30"/>
                     <connection refLocalId="5">
-                      <position x="414" y="120"/>
-                      <position x="382" y="120"/>
-                      <position x="382" y="100"/>
-                      <position x="392" y="100"/>
+                      <position x="430" y="120"/>
+                      <position x="413" y="120"/>
+                      <position x="413" y="110"/>
+                      <position x="396" y="110"/>
                     </connection>
                   </connectionPointIn>
                 </variable>
@@ -2072,11 +2127,7 @@
                     <relPosition x="0" y="50"/>
                     <connection refLocalId="6">
                       <position x="430" y="140"/>
-                      <position x="410" y="140"/>
-                      <position x="410" y="145"/>
-                      <position x="422" y="145"/>
-                      <position x="422" y="150"/>
-                      <position x="362" y="150"/>
+                      <position x="392" y="140"/>
                     </connection>
                   </connectionPointIn>
                 </variable>
@@ -2402,7 +2453,13 @@
                   <position x="540" y="530"/>
                   <position x="520" y="530"/>
                   <position x="520" y="540"/>
-                  <position x="500" y="540"/>
+                  <position x="503" y="540"/>
+                </connection>
+                <connection refLocalId="12" formalParameter="OUT">
+                  <position x="540" y="530"/>
+                  <position x="521" y="530"/>
+                  <position x="521" y="620"/>
+                  <position x="503" y="620"/>
                 </connection>
               </connectionPointIn>
               <connectionPointOut>
@@ -2410,6 +2467,132 @@
               </connectionPointOut>
               <variable>FerrousChemicalDeploy</variable>
             </coil>
+            <inVariable localId="29" width="150" height="20" negated="false">
+              <position x="220" y="680"/>
+              <connectionPointOut>
+                <relPosition x="150" y="10"/>
+              </connectionPointOut>
+              <expression>SecondaryClarifierWaterDepth</expression>
+            </inVariable>
+            <inVariable localId="30" width="160" height="20" negated="false">
+              <position x="220" y="720"/>
+              <connectionPointOut>
+                <relPosition x="160" y="10"/>
+              </connectionPointOut>
+              <expression>SecondClarifierDepthThresh</expression>
+            </inVariable>
+            <block localId="4" typeName="GT" width="63" height="60" executionOrderId="0">
+              <position x="440" y="690"/>
+              <inputVariables>
+                <variable formalParameter="IN1">
+                  <connectionPointIn>
+                    <relPosition x="0" y="30"/>
+                    <connection refLocalId="29">
+                      <position x="440" y="720"/>
+                      <position x="405" y="720"/>
+                      <position x="405" y="690"/>
+                      <position x="370" y="690"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+                <variable formalParameter="IN2">
+                  <connectionPointIn>
+                    <relPosition x="0" y="50"/>
+                    <connection refLocalId="30">
+                      <position x="440" y="740"/>
+                      <position x="410" y="740"/>
+                      <position x="410" y="730"/>
+                      <position x="380" y="730"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+              <inOutVariables/>
+              <outputVariables>
+                <variable formalParameter="OUT">
+                  <connectionPointOut>
+                    <relPosition x="63" y="30"/>
+                  </connectionPointOut>
+                </variable>
+              </outputVariables>
+            </block>
+            <coil localId="31" negated="false" width="60" height="40">
+              <position x="560" y="700"/>
+              <connectionPointIn>
+                <relPosition x="0" y="20"/>
+                <connection refLocalId="4" formalParameter="OUT">
+                  <position x="560" y="720"/>
+                  <position x="503" y="720"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="60" y="20"/>
+              </connectionPointOut>
+              <variable>SecondaryClarifierSludgeValve</variable>
+            </coil>
+            <coil localId="34" negated="false" width="70" height="40">
+              <position x="720" y="700"/>
+              <connectionPointIn>
+                <relPosition x="0" y="20"/>
+                <connection refLocalId="31">
+                  <position x="720" y="720"/>
+                  <position x="620" y="720"/>
+                </connection>
+              </connectionPointIn>
+              <connectionPointOut>
+                <relPosition x="70" y="20"/>
+              </connectionPointOut>
+              <variable>SecondaryClarifierOutletValve</variable>
+            </coil>
+            <inVariable localId="35" width="50" height="20" negated="false">
+              <position x="360" y="580"/>
+              <connectionPointOut>
+                <relPosition x="50" y="10"/>
+              </connectionPointOut>
+              <expression>BOD5</expression>
+            </inVariable>
+            <inVariable localId="36" width="100" height="20" negated="false">
+              <position x="300" y="620"/>
+              <connectionPointOut>
+                <relPosition x="100" y="10"/>
+              </connectionPointOut>
+              <expression>BOD5Threshold</expression>
+            </inVariable>
+            <block localId="12" typeName="GT" width="63" height="60" executionOrderId="0">
+              <position x="440" y="590"/>
+              <inputVariables>
+                <variable formalParameter="IN1">
+                  <connectionPointIn>
+                    <relPosition x="0" y="30"/>
+                    <connection refLocalId="35">
+                      <position x="440" y="620"/>
+                      <position x="425" y="620"/>
+                      <position x="425" y="590"/>
+                      <position x="410" y="590"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+                <variable formalParameter="IN2">
+                  <connectionPointIn>
+                    <relPosition x="0" y="50"/>
+                    <connection refLocalId="36">
+                      <position x="440" y="640"/>
+                      <position x="425" y="640"/>
+                      <position x="425" y="630"/>
+                      <position x="400" y="630"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+              <inOutVariables/>
+              <outputVariables>
+                <variable formalParameter="OUT">
+                  <connectionPointOut>
+                    <relPosition x="63" y="30"/>
+                  </connectionPointOut>
+                </variable>
+              </outputVariables>
+            </block>
           </LD>
         </body>
         <documentation>
