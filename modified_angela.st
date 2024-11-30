@@ -101,7 +101,7 @@ PROGRAM influent
   VAR
     InfluentWaterFlow AT %IW50 : INT := 10000;
     EffluentWaterFlow AT %IW49 : INT := 10000;
-    AirFlow AT %IW42 : INT := 5000;
+    AirFlow AT %IW42 : DINT := 5000;
     PretreatmentUnitFlow AT %IW48 : INT := 7000;
     ClarifierWaterDepth AT %IW43 : INT := 4;
     ClarifierWaterTemp AT %IW44 : INT := 72;
@@ -123,8 +123,8 @@ PROGRAM influent
     ClarifierOutletValve AT %QX47 : BOOL := 1;
     SecondaryClarifierOutletValve AT %QX48 : BOOL := 1;
     SecondaryClarifierSludgeValve AT %QX49 : BOOL := 1;
-    AirMinFlow AT %MW41 : INT := 49923;
-    AirMaxFlow AT %MW45 : INT := 186302;
+    AirMinFlow AT %MW41 : DINT := 49923;
+    AirMaxFlow AT %MW45 : DINT := 186302;
     TempMin AT %MW46 : INT := 17;
     TempMax AT %MW47 : INT := 30;
     DesignFlow AT %MW48 : INT := 10000;
